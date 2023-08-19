@@ -130,6 +130,18 @@ parse_dumps!(
     (test_parse_dumps_9, 9, 17_992, 21_000),
 );
 
+// test it out with: `cargo test debug_parse_dump -- --nocapture`
+#[test]
+fn debug_parse_dump() {
+    let f = read_file(Path::new("./tests/tests/sks-dump/").join(format!("0003.pgp")));
+    let packets = pgp::packet::PacketParser::new(f);
+    for p in packets {
+        if let Err(e) = p {
+            dbg!(e);
+        }
+    }
+}
+
 #[test]
 fn test_parse_gnupg_v1() {
     let _ = pretty_env_logger::try_init();
